@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -32,6 +33,11 @@ public class GptService {
                     .build();
             return chain.proceed(request);
         });
+
+        // Set the timeouts (for example, 60 seconds for both)
+        httpClient.connectTimeout(60, TimeUnit.SECONDS);
+        httpClient.readTimeout(60, TimeUnit.SECONDS);
+        httpClient.writeTimeout(60, TimeUnit.SECONDS);
 
         // Optional: Add logging interceptor for debugging
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();

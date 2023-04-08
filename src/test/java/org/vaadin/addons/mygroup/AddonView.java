@@ -45,7 +45,7 @@ public class AddonView extends Div {
         AutoFormFiller theAddon = new AutoFormFiller(supportProfileComponent,
                 userPrompt,
                 "Fill out N/A in the JSON value if the user did not specify a value.",
-                "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");
+                "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");
         theAddon.setId("autoFormFiller");
 
         add(theAddon);
