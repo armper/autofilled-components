@@ -10,7 +10,12 @@ import com.vaadin.flow.router.Route;
 @Route("")
 public class AutoFormFillerView extends Div {
 
+    private String apiKey;
+
     public AutoFormFillerView() {
+        // read apiKey from environment variable
+        apiKey = System.getProperty("GPT_API_KEY");
+
         VerticalLayout supportProfileComponent = new VerticalLayout();
         supportProfileComponent.setId("Support Profile");
         TextField nameField = new TextField("Name");
@@ -45,7 +50,7 @@ public class AutoFormFillerView extends Div {
 
         AutoFormFiller autoFormFiller = new AutoFormFiller(supportProfileComponent,
 
-                "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");
+                apiKey);
         autoFormFiller.setId("supportProfile");
 
         add(autoFormFiller);
