@@ -22,40 +22,44 @@ public class AutoFormFiller extends Div {
     private static final Logger logger = LoggerFactory.getLogger(AutoFormFiller.class);
 
     private final VaadinComponentService vaadinComponentService;
-    private GptServiceProvider gptServiceProvider;
+    private AiServiceProvider gptServiceProvider;
 
-    private String userPrompt;
-    private String gptInstructions;
+    private Map<String, Object> json;
 
-    public AutoFormFiller(String userPrompt, String gptInstructions, String apiKey) {
+    public AutoFormFiller(String apiKey) {
         this.vaadinComponentService = new VaadinComponentService();
-        this.gptServiceProvider = new GptService(apiKey);
+        this.gptServiceProvider = new ChatGpt3ServiceProvider(apiKey);
 
-        this.userPrompt = userPrompt;
-        this.gptInstructions = gptInstructions;
     }
 
-    public AutoFormFiller(Component component, String userPrompt, String gptInstructions, String apiKey) {
-        this(userPrompt, gptInstructions, apiKey);
+    public AutoFormFiller(Component component, String apiKey) {
+        this(apiKey);
         add(component);
 
-        var json = processComponents(component);
-        fillInComponentsBasedOnJson(json, userPrompt, gptInstructions);
+        this.json = processComponents(component);
+
     }
 
-    public AutoFormFiller(Component[] components, String userPrompt, String gptInstructions, String apiKey) {
-        this(userPrompt, gptInstructions, apiKey);
+    public AutoFormFiller(Component[] components, String apiKey) {
+        this(apiKey);
         add(components);
 
-        var json = processComponents(components);
-        fillInComponentsBasedOnJson(json, userPrompt, gptInstructions);
+        this.json = processComponents(components);
     }
 
-    public void setGptProvider(GptServiceProvider customGptService) {
-        this.gptServiceProvider = customGptService;
+    private Map<String, Object> processComponents(Component... components) {
+        return processComponents(new Div(components));
     }
 
-    private void fillInComponentsBasedOnJson(Map<String, Object> json, String userPrompt, String gptInstructions) {
+    private Map<String, Object> processComponents(Component component) {
+        Map<String, Object> jsonFromComponent = vaadinComponentService.createJsonFromComponent(component);
+
+        logger.debug("Generated JSON: {}", jsonFromComponent);
+
+        return jsonFromComponent;
+    }
+
+    public void autoFill(String userPrompt, String gptInstructions) {
         String gptRequest = String.format(
                 "Based on the user input: '%s', generate a JSON object according to these instructions: '%s'. "
                         + "Return the result as a JSON object in this format: '%s'. Infer the missing values based upon the user input and instructions. "
@@ -66,18 +70,10 @@ public class AutoFormFiller extends Div {
 
         fillComponentsWithGptResponse(gptResponse);
     }
+    
 
-    public Map<String, Object> processComponents(Component... components) {
-        return processComponents(new Div(components));
-    }
-
-    public Map<String, Object> processComponents(Component component) {
-        Map<String, Object> json = vaadinComponentService.createJsonFromComponent(component);
-
-        logger.debug("Generated JSON: {}", json);
-        System.out.println("Generated JSON: " + json);
-
-        return json;
+    public void setGptProvider(AiServiceProvider customGptService) {
+        this.gptServiceProvider = customGptService;
     }
 
     private void fillComponentsWithGptResponse(Map<String, Object> gptResponse) {

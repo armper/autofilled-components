@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -17,13 +20,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class GptService implements GptServiceProvider {
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(GptService.class);
+public class ChatGpt3ServiceProvider implements AiServiceProvider {
+    private static final Logger log = LoggerFactory.getLogger(ChatGpt3ServiceProvider.class);
 
     private final GptApi gptApi;
     private static final String MODEL_NAME = "gpt-3.5-turbo-0301";
 
-    public GptService(String apiKey) {
+    public ChatGpt3ServiceProvider(String apiKey) {
         log.info("Initializing GPT service with API key: {}", apiKey);
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -53,7 +56,12 @@ public class GptService implements GptServiceProvider {
         gptApi = retrofit.create(GptApi.class);
     }
 
-    public Map<String, Object> callGptApi(String gptRequest) {
+    @Override
+    public Map<String, Object> processRequest(String gptRequest) {
+        return callGptApi(gptRequest);
+    }
+
+    private Map<String, Object> callGptApi(String gptRequest) {
         log.info("Calling GPT API with request: {}", gptRequest);
 
         List<Map<String, Object>> messages = new ArrayList<>();
@@ -101,8 +109,4 @@ public class GptService implements GptServiceProvider {
         return new HashMap<>();
     }
 
-    @Override
-    public Map<String, Object> processRequest(String gptRequest) {
-        return callGptApi(gptRequest);
-    }
 }

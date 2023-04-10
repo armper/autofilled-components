@@ -1,5 +1,6 @@
 package org.vaadin.addons.mygroup;
 
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -7,9 +8,9 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
 @Route("")
-public class AddonView extends Div {
+public class AutoFormFillerView extends Div {
 
-    public AddonView() {
+    public AutoFormFillerView() {
         VerticalLayout supportProfileComponent = new VerticalLayout();
         supportProfileComponent.setId("Support Profile");
         TextField nameField = new TextField("Name");
@@ -32,7 +33,7 @@ public class AddonView extends Div {
         supportProfileComponent.add(impactsGrid, consumersGrid);
 
         String userPrompt = "I want to create a Support Profile called 'Super Support' with the owner named " +
-                "'Jane Doe', living at '1234 Main Street, Springfield', and reachable at '555-1234'. " +
+                "'Jane Doe', a person, living at '1234 Main Street, Springfield', and reachable at '505-555-1234'. " +
                 "For impacts, I'd like to include two. The first impact is named 'System Downtime', " +
                 "has a severity of 'High', and the threshold phrase is 'over 30 minutes'. The second " +
                 "impact is 'Data Loss', with a severity of 'Medium' and the threshold phrase is 'more " +
@@ -42,12 +43,16 @@ public class AddonView extends Div {
                 "'555-9101' and type 'Business'. The third consumer is 'Carol' living at '11213 Oak " +
                 "Street, Springfield' with phone number '555-1121' and type 'Government'.";
 
-        AutoFormFiller theAddon = new AutoFormFiller(supportProfileComponent,
-                userPrompt,
-                "Fill out N/A in the JSON value if the user did not specify a value.",
-                "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");
-        theAddon.setId("autoFormFiller");
+        AutoFormFiller autoFormFiller = new AutoFormFiller(supportProfileComponent,
 
-        add(theAddon);
+                "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");
+        autoFormFiller.setId("supportProfile");
+
+        add(autoFormFiller);
+
+        add(new Button("Process", event -> {
+            autoFormFiller.autoFill(userPrompt,
+                    "Fill out N/A in the JSON value if the user did not specify a value. If the owner is a person, set the owner type to INDIVIDUAL in all caps.");
+        }));
     }
 }

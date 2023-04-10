@@ -2,7 +2,7 @@ package org.vaadin.addons.mygroup;
 
 import java.util.Map;
 
-public interface GptServiceProvider {
+public interface AiServiceProvider {
     /**
      * Call the GPT API with the given input text.
      *
