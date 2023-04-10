@@ -17,7 +17,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class GptService {
+public class GptService implements GptServiceProvider {
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(GptService.class);
 
     private final GptApi gptApi;
@@ -99,5 +99,10 @@ public class GptService {
         }
 
         return new HashMap<>();
+    }
+
+    @Override
+    public Map<String, Object> processRequest(String gptRequest) {
+        return callGptApi(gptRequest);
     }
 }

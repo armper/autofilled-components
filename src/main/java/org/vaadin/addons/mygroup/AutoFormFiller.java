@@ -22,14 +22,14 @@ public class AutoFormFiller extends Div {
     private static final Logger logger = LoggerFactory.getLogger(AutoFormFiller.class);
 
     private final VaadinComponentService vaadinComponentService;
-    private final GptService gptService;
+    private GptServiceProvider gptServiceProvider;
 
     private String userPrompt;
     private String gptInstructions;
 
     public AutoFormFiller(String userPrompt, String gptInstructions, String apiKey) {
         this.vaadinComponentService = new VaadinComponentService();
-        this.gptService = new GptService(apiKey);
+        this.gptServiceProvider = new GptService(apiKey);
 
         this.userPrompt = userPrompt;
         this.gptInstructions = gptInstructions;
@@ -51,12 +51,8 @@ public class AutoFormFiller extends Div {
         fillInComponentsBasedOnJson(json, userPrompt, gptInstructions);
     }
 
-    public void setComponents(Component... components) {
-        removeAll();
-        add(components);
-
-        var json = processComponents(components);
-        fillInComponentsBasedOnJson(json, userPrompt, gptInstructions);
+    public void setGptProvider(GptServiceProvider customGptService) {
+        this.gptServiceProvider = customGptService;
     }
 
     private void fillInComponentsBasedOnJson(Map<String, Object> json, String userPrompt, String gptInstructions) {
@@ -66,7 +62,7 @@ public class AutoFormFiller extends Div {
                         + "The original JSON format is: '%s'.",
                 userPrompt, gptInstructions, json, json);
 
-        Map<String, Object> gptResponse = gptService.callGptApi(gptRequest);
+        Map<String, Object> gptResponse = gptServiceProvider.processRequest(gptRequest);
 
         fillComponentsWithGptResponse(gptResponse);
     }
