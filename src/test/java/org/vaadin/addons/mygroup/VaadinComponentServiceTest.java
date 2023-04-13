@@ -1,6 +1,7 @@
 package org.vaadin.addons.mygroup;
 
 import org.junit.Test;
+import org.vaadin.addons.mygroup.supportProfile.OwnerForm;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;

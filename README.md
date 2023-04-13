@@ -57,6 +57,8 @@ The package is created as `target/{project-name}-1.0.0.zip`
 For more information or to upload the package, visit https://vaadin.com/directory/my-components?uploadNewComponent
 
 To debug:
+
+```
 export MAVEN_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000"
 mvn jetty:run
-Attach to debugger
+```
