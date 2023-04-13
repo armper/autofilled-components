@@ -8,7 +8,7 @@ public class OwnerForm extends VerticalLayout {
     public OwnerForm() {
         super();
         TextField name = new TextField("Name");
-        name.setId("name");
+        name.setId("ownerName");
         TextField address = new TextField("Address");
         address.setId("address");
         TextField phone = new TextField("Phone");

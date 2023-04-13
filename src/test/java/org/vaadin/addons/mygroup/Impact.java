@@ -6,11 +6,8 @@ import lombok.ToString;
 @Data
 @ToString
 public class Impact {
-    private Long id;
     private String name;
     private String severity;
-    private String thresholdPhrase;
-
-
+    private String threshold;
 
 }

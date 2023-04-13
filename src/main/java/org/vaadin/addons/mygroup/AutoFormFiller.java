@@ -70,7 +70,6 @@ public class AutoFormFiller extends Div {
 
         fillComponentsWithGptResponse(gptResponse);
     }
-    
 
     public void setGptProvider(AiServiceProvider customGptService) {
         this.gptServiceProvider = customGptService;
@@ -101,23 +100,29 @@ public class AutoFormFiller extends Div {
             String fullId = parentIds.isEmpty() ? id : parentIds + id;
             Object responseValue = gptResponse.get(fullId);
 
-            if (component instanceof Grid && responseValue != null) {
-                List<Map<String, Object>> items = (List<Map<String, Object>>) responseValue;
-                Grid<?> grid = (Grid<?>) component;
-                Class<?> beanType = grid.getBeanType();
-                updateGridWithWildcards(grid, items, beanType);
-            } else if (component instanceof TextField && responseValue != null) {
-                TextField textField = (TextField) component;
-                textField.setValue(responseValue.toString());
-            } else if (component instanceof ComboBox && responseValue != null) {
-                ComboBox<T> comboBox = (ComboBox<T>) component;
-                comboBox.setValue((T) responseValue);
-            } else if (component instanceof Checkbox && responseValue != null) {
-                Checkbox checkbox = (Checkbox) component;
-                checkbox.setValue((Boolean) responseValue);
-            } else if (component instanceof DatePicker && responseValue != null) {
-                DatePicker datePicker = (DatePicker) component;
-                datePicker.setValue(LocalDate.parse(responseValue.toString()));
+            if (responseValue instanceof Map) {
+                Map<String, Object> nestedResponseValue = (Map<String, Object>) responseValue;
+                component.getChildren()
+                        .forEach(child -> fillComponentAndChildrenWithGptResponse(child, nestedResponseValue, ""));
+            } else {
+                if (component instanceof Grid && responseValue != null) {
+                    List<Map<String, Object>> items = (List<Map<String, Object>>) responseValue;
+                    Grid<?> grid = (Grid<?>) component;
+                    Class<?> beanType = grid.getBeanType();
+                    updateGridWithWildcards(grid, items, beanType);
+                } else if (component instanceof TextField && responseValue != null) {
+                    TextField textField = (TextField) component;
+                    textField.setValue(responseValue.toString());
+                } else if (component instanceof ComboBox && responseValue != null) {
+                    ComboBox<T> comboBox = (ComboBox<T>) component;
+                    comboBox.setValue((T) responseValue);
+                } else if (component instanceof Checkbox && responseValue != null) {
+                    Checkbox checkbox = (Checkbox) component;
+                    checkbox.setValue((Boolean) responseValue);
+                } else if (component instanceof DatePicker && responseValue != null) {
+                    DatePicker datePicker = (DatePicker) component;
+                    datePicker.setValue(LocalDate.parse(responseValue.toString()));
+                }
             }
         }
 
