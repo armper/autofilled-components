@@ -27,10 +27,19 @@ public class VaadinComponentService {
             String id = childComponent.getId().orElse(null);
 
             if (id != null) {
-                componentInfoList.add(new VaadinComponentInfo(id, componentType, childComponent));
-            }
+                VaadinComponentInfo info = new VaadinComponentInfo(id, componentType, childComponent);
+                componentInfoList.add(info);
 
-            findChildComponents(childComponent, componentInfoList);
+                if (isContainedInCustomForm(childComponent)) {
+                    // Handle the custom form case by finding child components inside the custom
+                    // form.
+                    findChildComponents(childComponent, info.getChildren());
+                } else {
+                    findChildComponents(childComponent, componentInfoList);
+                }
+            } else {
+                findChildComponents(childComponent, componentInfoList);
+            }
         });
     }
 
@@ -57,6 +66,11 @@ public class VaadinComponentService {
             return false;
         }
 
+        String className = component.getClass().getSimpleName();
+        if (className.endsWith("Form")) {
+            return true;
+        }
+
         List<Component> children = component.getChildren().collect(Collectors.toList());
         if (children.isEmpty()) {
             return false;
@@ -72,4 +86,5 @@ public class VaadinComponentService {
 
         return hasFormField;
     }
+
 }
