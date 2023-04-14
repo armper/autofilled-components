@@ -1,4 +1,4 @@
-package org.vaadin.addons.mygroup;
+package org.vaadin.addons.pandalyte.provider.impl;
 
 import java.util.List;
 

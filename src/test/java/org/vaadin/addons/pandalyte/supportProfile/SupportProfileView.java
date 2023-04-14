@@ -1,6 +1,6 @@
-package org.vaadin.addons.mygroup.supportProfile;
+package org.vaadin.addons.pandalyte.supportProfile;
 
-import org.vaadin.addons.mygroup.AutoFormFiller;
+import org.vaadin.addons.pandalyte.AutoFormFiller;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -18,7 +18,6 @@ public class SupportProfileView extends VerticalLayout {
         String apiKey = System.getProperty("GPT_API_KEY");
 
         supportProfileForm = new SupportProfileForm();
-        add(supportProfileForm);
 
         String userPrompt = "I want to create a public Support Profile called 'Super Support' with the owner named " +
                 "'Jane Doe', a person, living at '1234 Main Street, Springfield', and reachable at mobile phone '505-555-1234'. " +
@@ -38,7 +37,7 @@ public class SupportProfileView extends VerticalLayout {
 
         add(new Button("Process", event -> {
             autoFormFiller.autoFill(userPrompt,
-                    "Fill out N/A in the JSON value if the user did not specify a value. If the owner is a person, set the owner type to INDIVIDUAL in all caps.");
+                    "Fill out N/A in the JSON value if the user did not specify a value. If the owner is a person, set the owner type to INDIVIDUAL in all caps. Set the value of phoneType to all caps.");
         }));
     }
 

@@ -1,7 +1,7 @@
-package org.vaadin.addons.mygroup.supportProfile;
+package org.vaadin.addons.pandalyte.supportProfile;
 
-import org.vaadin.addons.mygroup.supportProfile.model.Contact;
-import org.vaadin.addons.mygroup.supportProfile.model.Impact;
+import org.vaadin.addons.pandalyte.supportProfile.model.Contact;
+import org.vaadin.addons.pandalyte.supportProfile.model.Impact;
 
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.grid.Grid;

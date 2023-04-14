@@ -1,4 +1,4 @@
-package org.vaadin.addons.mygroup;
+package org.vaadin.addons.pandalyte.provider.impl;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.addons.pandalyte.provider.AiServiceProvider;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -95,7 +96,7 @@ public class ChatGpt3ServiceProvider implements AiServiceProvider {
                         Type type = new TypeToken<Map<String, Object>>() {
                         }.getType();
                         Map<String, Object> contentMap = gson.fromJson(content, type);
-
+                        log.debug("GPT API call succeeded with response: {}", contentMap);
                         return contentMap;
                     }
                 }

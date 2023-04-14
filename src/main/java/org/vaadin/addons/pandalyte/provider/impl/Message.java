@@ -1,4 +1,4 @@
-package org.vaadin.addons.mygroup;
+package org.vaadin.addons.pandalyte.provider.impl;
 
 public class Message {
     private String role;

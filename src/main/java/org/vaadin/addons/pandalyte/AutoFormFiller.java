@@ -1,4 +1,4 @@
-package org.vaadin.addons.mygroup;
+package org.vaadin.addons.pandalyte;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
@@ -9,6 +9,9 @@ import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vaadin.addons.pandalyte.provider.AiServiceProvider;
+import org.vaadin.addons.pandalyte.provider.impl.ChatGpt3ServiceProvider;
+import org.vaadin.addons.pandalyte.service.VaadinComponentService;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -181,7 +184,7 @@ public class AutoFormFiller extends Div {
                         field.set(item, propValue);
                     }
 
-                } catch (NoSuchFieldException | IllegalAccessException e) {
+                } catch (NoSuchFieldException | IllegalAccessException | IllegalArgumentException e) {
                     logger.error("Failed to set field value for '{}': {}", propName, e.getMessage());
                 }
             }

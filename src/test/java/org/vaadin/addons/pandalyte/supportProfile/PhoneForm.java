@@ -1,6 +1,6 @@
-package org.vaadin.addons.mygroup.supportProfile;
+package org.vaadin.addons.pandalyte.supportProfile;
 
-import org.vaadin.addons.mygroup.supportProfile.model.PhoneType;
+import org.vaadin.addons.pandalyte.supportProfile.model.PhoneType;
 
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;

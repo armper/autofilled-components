@@ -1,6 +1,6 @@
-package org.vaadin.addons.mygroup.supportProfile;
+package org.vaadin.addons.pandalyte.supportProfile;
 
-import org.vaadin.addons.mygroup.supportProfile.model.OwnerType;
+import org.vaadin.addons.pandalyte.supportProfile.model.OwnerType;
 
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -15,7 +15,7 @@ public class OwnerForm extends VerticalLayout {
         address.setId("address");
         PhoneForm phone = new PhoneForm();
         phone.setId("phone");
-        
+
         ComboBox<OwnerType> type = new ComboBox<>("Type");
         type.setItems(OwnerType.values());
         type.setId("type");
