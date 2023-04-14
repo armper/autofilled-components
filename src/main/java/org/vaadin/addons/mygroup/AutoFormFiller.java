@@ -10,6 +10,8 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -26,9 +28,12 @@ public class AutoFormFiller extends Div {
 
     private Map<String, Object> json;
 
+    private Gson gson;
+
     public AutoFormFiller(String apiKey) {
         this.vaadinComponentService = new VaadinComponentService();
         this.gptServiceProvider = new ChatGpt3ServiceProvider(apiKey);
+        this.gson = new GsonBuilder().create();
 
     }
 
@@ -166,9 +171,16 @@ public class AutoFormFiller extends Div {
                 }
 
                 try {
+
                     Field field = itemClass.getDeclaredField(propName);
                     field.setAccessible(true);
-                    field.set(item, propValue);
+                    if (field.getType().equals(String.class)
+                            && propValue instanceof com.google.gson.internal.LinkedTreeMap) {
+                        field.set(item, gson.toJson(propValue));
+                    } else {
+                        field.set(item, propValue);
+                    }
+
                 } catch (NoSuchFieldException | IllegalAccessException e) {
                     logger.error("Failed to set field value for '{}': {}", propName, e.getMessage());
                 }
