@@ -1,7 +1,44 @@
-# Vaadin Add-on example project
+## AutoFormFiller Application
+AutoFormFiller is a Java-based web application that uses Vaadin components and OpenAI GPT-3 to automatically fill out forms based on user prompts.
 
-An empty project for creating a Vaadin add-on. You should start from this project if your add-on's components are based on the existing Vaadin classes or doesn't use 3rd party JavaScript modules.
+## Features
+Automatically fill out forms based on user prompts and GPT-3 responses
+Supports various Vaadin components, including TextField, ComboBox, Checkbox, DatePicker, and Grid
+Easily customizable and extendable
+## Prerequisites
+Java Development Kit (JDK) 8 or higher
+Maven 3.6 or higher
+Vaadin 14 or higher
+OpenAI GPT-3 API key
+## Setup For Testing This Component
+Clone the repository or download the source code.
+In the project directory, set the GPT_API_KEY environment variable to your OpenAI GPT-3 API key. For example:
+```
+export GPT_API_KEY=<your-api-key>
+```
 
+or, in Windows:
+
+```
+$Env:GPT_API_KEY="<your-api-key>"
+```
+Build and run the application using Maven:
+```
+mvn clean install
+mvn spring-boot:run
+```
+Open your web browser and navigate to http://localhost:8080 to view the test forms.
+
+## Usage
+Click the "Process" button to automatically fill out the form with the data based on the provided user prompt.
+
+You can customize the user prompt and GPT-3 instructions in the CustomerOrdersView.java file.
+Customization
+
+You can extend and modify the AutoFormFiller class to support additional Vaadin components or to implement your own GPT service provider by implementing the AiServiceProvider interface.
+
+License
+This project is released under the MIT License.
 ## Add-on architecture
 ![server-side-addon](https://user-images.githubusercontent.com/991105/211870086-75544597-847d-4d21-82fa-341411753558.svg)
 
@@ -56,9 +93,11 @@ The package is created as `target/{project-name}-1.0.0.zip`
 
 For more information or to upload the package, visit https://vaadin.com/directory/my-components?uploadNewComponent
 
-To debug:
+## Hints:
+
+To Debug with Maven Jetty:
 
 ```
 export MAVEN_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000"
-mvn jetty:run
+mvn jetty:run -DGPT_API_KEY=<your-api-key>
 ```
